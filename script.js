@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const events = extractTextAndLinks(content);
         const formattedLines = [];
 
+        // Add the introductory text and PS message
+        formattedLines.push("Some great stuff going on in ATX this week. If you're a founder, looking to meet people, check these out 👇");
+        formattedLines.push("PS. I send a longer version of this to hundreds of founders in ATX every week. You can get it straight to your inbox here: austinbusinessreview.com");
+
         events.forEach(event => {
             // Add the event text and link on the same line
             formattedLines.push(`${event.text}\n🔗 ${event.url}`);
