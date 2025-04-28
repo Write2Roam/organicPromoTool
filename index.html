@@ -5,6 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Media Newsletter Formatter</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .input-section, .output-section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .output-container {
+            margin-top: 10px;
+            position: relative;
+        }
+        .output-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .copy-button:hover {
+            background-color: #0b7dda;
+        }
+        .copy-button.copied {
+            background-color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,17 +83,26 @@
         <div class="output-section">
             <div class="output-box">
                 <h2>LinkedIn Output</h2>
-                <div id="linkedinOutput" class="content-box"></div>
+                <div class="output-container">
+                    <button class="copy-button" data-target="linkedinOutput">Copy</button>
+                    <div id="linkedinOutput" class="content-box"></div>
+                </div>
             </div>
 
             <div class="output-box">
                 <h2>Twitter Output</h2>
-                <div id="twitterOutput" class="content-box"></div>
+                <div class="output-container">
+                    <button class="copy-button" data-target="twitterOutput">Copy</button>
+                    <div id="twitterOutput" class="content-box"></div>
+                </div>
             </div>
 
             <div class="output-box">
                 <h2>Reddit Output</h2>
-                <div id="redditOutput" class="content-box"></div>
+                <div class="output-container">
+                    <button class="copy-button" data-target="redditOutput">Copy</button>
+                    <div id="redditOutput" class="content-box"></div>
+                </div>
             </div>
         </div>
     </div>

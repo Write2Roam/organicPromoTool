@@ -4,6 +4,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const twitterOutput = document.getElementById('twitterOutput');
     const redditOutput = document.getElementById('redditOutput');
     const formatButton = document.getElementById('formatButton');
+    
+    // Add event listeners for copy buttons
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            // Create a temporary div to hold the HTML content
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = targetElement.innerHTML;
+            document.body.appendChild(tempDiv);
+            
+            // Select the content
+            const range = document.createRange();
+            range.selectNode(tempDiv);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            // Copy the content
+            document.execCommand('copy');
+            
+            // Remove the temporary div
+            document.body.removeChild(tempDiv);
+            
+            // Show feedback
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            
+            // Reset the button after 2 seconds
+            setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('copied');
+            }, 2000);
+        });
+    });
 
     formatButton.addEventListener('click', () => {
         const content = inputContent.innerHTML;
