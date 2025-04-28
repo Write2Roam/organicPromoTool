@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsletter Content Formatter</title>
+    <title>Social Media Newsletter Formatter</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Newsletter Content Formatter</h1>
+        <h1>Social Media Newsletter Formatter</h1>
         
         <div class="input-section">
-            <h2>Input Your Newsletter Content</h2>
-            <div id="inputContent" class="rich-input" contenteditable="true" placeholder="Paste your newsletter content here..."></div>
-        </div>
-
-        <div class="output-section">
-            <div class="output-container">
-                <h2>Twitter/LinkedIn Format</h2>
-                <div id="socialOutput" class="output"></div>
-            </div>
-
-            <div class="output-container">
-                <h2>Reddit Format (Markdown)</h2>
-                <div id="redditOutput" class="output"></div>
-            </div>
+            <h2>Input Content</h2>
+            <div id="inputContent" contenteditable="true" class="content-box"></div>
         </div>
 
         <button id="formatButton">Format Content</button>
+
+        <div class="output-section">
+            <div class="output-box">
+                <h2>LinkedIn Output</h2>
+                <div id="linkedinOutput" class="content-box"></div>
+            </div>
+
+            <div class="output-box">
+                <h2>Twitter Output</h2>
+                <div id="twitterOutput" class="content-box"></div>
+            </div>
+
+            <div class="output-box">
+                <h2>Reddit Output</h2>
+                <div id="redditOutput" class="content-box"></div>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

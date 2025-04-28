@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const inputContent = document.getElementById('inputContent');
-    const socialOutput = document.getElementById('socialOutput');
+    const linkedinOutput = document.getElementById('linkedinOutput');
+    const twitterOutput = document.getElementById('twitterOutput');
     const redditOutput = document.getElementById('redditOutput');
     const formatButton = document.getElementById('formatButton');
 
@@ -11,9 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Format for Twitter/LinkedIn
-        const socialFormatted = formatForSocial(content);
-        socialOutput.textContent = socialFormatted;
+        // Format for LinkedIn
+        const linkedinFormatted = formatForLinkedIn(content);
+        linkedinOutput.innerHTML = linkedinFormatted;
+
+        // Format for Twitter
+        const twitterFormatted = formatForTwitter(content);
+        twitterOutput.innerHTML = twitterFormatted;
 
         // Format for Reddit
         const redditFormatted = formatForReddit(content);
@@ -61,36 +66,92 @@ document.addEventListener('DOMContentLoaded', () => {
         return events;
     }
 
-    function formatForSocial(content) {
+    function formatForLinkedIn(content) {
         const events = extractTextAndLinks(content);
-        const formattedLines = [];
-
-        // Add the introductory text and PS message
-        formattedLines.push("Some great stuff going on in ATX this week. If you're a founder, looking to meet people, check these out 👇");
-        formattedLines.push("PS. I send a longer version of this to hundreds of founders in ATX every week. You can get it straight to your inbox here: austinbusinessreview.com");
-
+        
+        // Create a container for the formatted content
+        const container = document.createElement('div');
+        container.style.whiteSpace = 'pre-wrap';
+        
+        // Add the intro
+        const intro = document.createElement('p');
+        intro.textContent = "Some great stuff going on in ATX this week. If you're a founder, looking to meet people, check these out 👇";
+        container.appendChild(intro);
+        
+        // Add a blank line
+        container.appendChild(document.createElement('br'));
+        
+        // Add the PS message
+        const ps = document.createElement('p');
+        ps.textContent = "PS. I send a longer version of this to hundreds of founders in ATX every week. You can get it straight to your inbox here: austinbusinessreview.com";
+        container.appendChild(ps);
+        
+        // Add a blank line
+        container.appendChild(document.createElement('br'));
+        
+        // Add each event
         events.forEach(event => {
-            // Add the event text and link on the same line
-            formattedLines.push(`${event.text}\n🔗 ${event.url}`);
+            // Add the event text
+            const eventText = document.createElement('p');
+            eventText.textContent = event.text;
+            container.appendChild(eventText);
+            
+            // Add the link
+            const link = document.createElement('p');
+            link.textContent = `🔗 ${event.url}`;
+            container.appendChild(link);
+            
+            // Add a blank line
+            container.appendChild(document.createElement('br'));
         });
+        
+        return container.outerHTML;
+    }
 
-        // Join events with double line breaks
-        return formattedLines.join('\n\n');
+    function formatForTwitter(content) {
+        const events = extractTextAndLinks(content);
+        
+        // Create a container for the formatted content
+        const container = document.createElement('div');
+        container.style.whiteSpace = 'pre-wrap';
+        
+        // Add the intro
+        const intro = document.createElement('p');
+        intro.textContent = "Some great stuff going on in ATX this week. If you're a founder, looking to meet people, check these out 👇";
+        container.appendChild(intro);
+        
+        // Add the PS message
+        const ps = document.createElement('p');
+        ps.textContent = "PS. I send a longer version of this to hundreds of founders in ATX every week. You can get it straight to your inbox here: austinbusinessreview.com";
+        container.appendChild(ps);
+        
+        // Add each event
+        for (let i = 0; i < events.length; i++) {
+            const event = events[i];
+            
+            // Add the event text and link in the same paragraph
+            const eventP = document.createElement('p');
+            eventP.innerHTML = `${event.text}<br>🔗 ${event.url}`;
+            container.appendChild(eventP);
+        }
+        
+        return container.outerHTML;
     }
 
     function formatForReddit(content) {
+        // Create a temporary div to parse the HTML
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
-
-        // Create a container for all events
+        
+        // Create a container for the formatted content
         const container = document.createElement('div');
         container.style.display = 'flex';
         container.style.flexDirection = 'column';
         container.style.gap = '1em';
-
+        
         // Find all paragraphs
         const paragraphs = tempDiv.getElementsByTagName('p');
-
+        
         // Process each paragraph
         Array.from(paragraphs).forEach(p => {
             const text = p.textContent.trim();
@@ -98,30 +159,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Find the link in this paragraph
                 const link = p.querySelector('a');
                 if (link) {
-                    // Get the text before and after the link
-                    const linkText = link.textContent;
-                    const beforeLink = text.substring(0, text.indexOf(linkText));
-                    const afterLink = text.substring(text.indexOf(linkText) + linkText.length);
-                    
                     // Create a new paragraph with rich text link
                     const newP = document.createElement('p');
                     newP.style.margin = '0';
-                    newP.innerHTML = beforeLink;
                     
-                    // Create and append the link
-                    const newLink = document.createElement('a');
-                    newLink.href = cleanUrl(link.href);
-                    newLink.textContent = linkText;
-                    newP.appendChild(newLink);
+                    // Clone the original paragraph's content
+                    newP.innerHTML = p.innerHTML;
                     
-                    // Append the text after the link
-                    newP.appendChild(document.createTextNode(afterLink));
+                    // Clean up the link URL
+                    const newLink = newP.querySelector('a');
+                    if (newLink) {
+                        newLink.href = cleanUrl(newLink.href);
+                    }
                     
                     container.appendChild(newP);
                 }
             }
         });
-
+        
         return container.outerHTML;
     }
 }); 
